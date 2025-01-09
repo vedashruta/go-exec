@@ -14,7 +14,7 @@ var (
 )
 
 func LoadEnv() (err error) {
-	err = godotenv.Load("env/.env")
+	err = godotenv.Load("./.env")
 	if err != nil {
 		return
 	}

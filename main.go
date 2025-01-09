@@ -16,6 +16,13 @@ func main() {
 	}
 	app := fiber.New()
 	app.Use(pprof.New())
+	app.Get("/", func(c *fiber.Ctx) (err error) {
+		c.JSON(fiber.Map{
+			"ok":     false,
+			"status": "denied",
+		})
+		return
+	})
 	apis.Configure(app)
 	app.Listen(env.Port)
 }

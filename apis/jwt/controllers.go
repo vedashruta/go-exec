@@ -29,7 +29,7 @@ type model struct {
 }
 
 func Init() (err error) {
-	err = godotenv.Load("env/.env")
+	err = godotenv.Load("./.env")
 	if err != nil {
 		return
 	}
