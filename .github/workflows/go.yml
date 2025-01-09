@@ -5,7 +5,7 @@ name: Go
 
 on:
   push:
-    branches: [ "release/ec2" ]
+    branches: [ "release/production" ]
     
 jobs:
 
