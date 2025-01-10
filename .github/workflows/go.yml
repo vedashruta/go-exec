@@ -1,46 +1,35 @@
 name: CI Pipeline
-
 on:
   push:
     branches:
       - release/production
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and Test
+    name: Production Build
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
       - name: Set Up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.22'
-
       - name: Install Dependencies
         run: go mod tidy
-
       - name: Build Linux Binary
         run: |
           mkdir -p builds
-          GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go main.go
+          GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go-linux main.go
           echo "Linux build success"
-
+          ls -la builds
       - name: Build Windows Binary
         run: |
           mkdir -p builds
           GOOS=windows GOARCH=amd64 go build -o builds/toolchain-go.exe main.go
           echo "Windows binary build success"
+          ls -la builds
 
-      - name: Upload Build Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: builds
-          path: builds/
-
-      - name: Build Status
-        if: success()
-        run: echo "Build succeeded! Your binary is ready in the builds artifact"
+          path: ./builds/
