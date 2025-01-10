@@ -26,19 +26,17 @@ jobs:
       - name: Build Linux Binary
         run: |
           mkdir -p builds
-          GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go-linux main.go
+          GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go main.go
           echo "Linux build success"
-          ls -la builds
 
       - name: Build Windows Binary
         run: |
           mkdir -p builds
           GOOS=windows GOARCH=amd64 go build -o builds/toolchain-go.exe main.go
           echo "Windows binary build success"
-          ls -la builds
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: builds
           path: builds/
