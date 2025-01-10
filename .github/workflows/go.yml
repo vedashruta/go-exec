@@ -1,12 +1,15 @@
 name: Pipeline
+
 on:
   push:
     branches:
-      - release/production
+      - master
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and Test
+    name: Production Build
 
     steps:
       - name: Checkout Code
@@ -17,28 +20,30 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Install Dependencies
-        run: go mod tidy
+      - name: Debug Environment
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
 
       - name: Build Linux Binary
         run: |
           mkdir -p builds
           GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go-linux main.go
-          echo "Linux build success"
-          ls -la builds
+          echo "Linux binary build success"
 
       - name: Build Windows Binary
         run: |
           mkdir -p builds
           GOOS=windows GOARCH=amd64 go build -o builds/toolchain-go.exe main.go
-          echo "Windows binary build success"
+          echo "Windows binary build success:"
 
-      - name: Upload Build Artifact
+      - name: Verify Built Files
+        run: |
+          echo "Verifying builds directory content:"
+          ls -la builds
+
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: builds
+          name: build-artifacts
           path: ./builds/
-
-      - name: Build Status
-        if: success()
-        run: echo "Build success"
