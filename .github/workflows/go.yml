@@ -1,23 +1,49 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: CI Pipeline for Toolchain Go
 
 on:
   push:
-    branches: [ "release/production" ]
-    
-jobs:
+    branches:
+      - main
+  workflow_dispatch:
 
+jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build and Test
+
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.22.4'
+      - name: Set Up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
 
-    - name: Build
-      run: go mod tidy && go build -o server
+      - name: Cache Go Modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install Dependencies
+        run: go mod tidy
+
+      - name: Build Binary
+        run: |
+          mkdir -p builds
+          go build -o builds/linux-binary main.go
+          GOOS=windows GOARCH=amd64 go build -o builds/windows-binary  main.go
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: builds
+          path: builds/
+
+      - name: Build Status
+        if: success()
+        run: echo "Build succeeded! Your binary is ready in the builds artifact"
