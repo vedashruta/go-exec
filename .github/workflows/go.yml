@@ -3,7 +3,7 @@ name: Pipeline
 on:
   push:
     branches:
-      - master
+      - release/production
   workflow_dispatch:
 
 jobs:
