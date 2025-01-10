@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - main
+      - release/production
   workflow_dispatch:
 
 jobs:
@@ -20,23 +20,22 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Cache Go Modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
       - name: Install Dependencies
         run: go mod tidy
 
-      - name: Build Binary
+      - name: Build Linux Binary
         run: |
           mkdir -p builds
-          go build -o builds/linux-binary main.go
-          GOOS=windows GOARCH=amd64 go build -o builds/windows-binary  main.go
+          GOOS=linux GOARCH=amd64 go build -o builds/toolchain-go-linux main.go
+          echo "Linux build success"
+          ls -la builds
+
+      - name: Build Windows Binary
+        run: |
+          mkdir -p builds
+          GOOS=windows GOARCH=amd64 go build -o builds/toolchain-go.exe main.go
+          echo "Windows binary build success"
+          ls -la builds
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
