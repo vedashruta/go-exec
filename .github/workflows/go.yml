@@ -1,4 +1,4 @@
-name: CI Pipeline for Toolchain Go
+name: CI Pipeline
 
 on:
   push:
