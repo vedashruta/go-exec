@@ -1,4 +1,4 @@
-<div style="display: flex; align-items: center;"> <h1 style="margin-right: 10px; font-size: 32px; line-height: 40px; margin: 0;">Toolchain</h1> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" height="70" alt="Go logo" style="vertical-align: middle; margin-top: -5px;"/></div>
+<div style="display: flex; align-items: center;"> <h1 style="margin-right: 10px; font-size: 32px; line-height: 40px; margin: 0;">Go-Exec</h1> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" height="70" alt="Go logo" style="vertical-align: middle; margin-top: -5px;"/></div>
 
 **💻 Your New Development Sidekick**
 <br/>Imagine a toolbox that works as hard as you do, minus the coffee breaks. That’s Toolchain Go 🛠️. Whether you're encoding secret messages, encrypting your weekend plans, or just tired of web ads making your dev life a nightmare, we’ve got your back.
@@ -14,6 +14,7 @@
 #### 📂 File Operations: File reading, writing, and streaming like a boss.
 #### 🔍 Hashing: Get hashes (SHA256, MD5)—because who doesn't love a good hash?
 #### ↔️ Data Conversion: Convert like a pro—strings, bytes, arrays... you name it.
+#### ↔️ Archives : .zip, tar.gz, flate.best-speed.
 
 ## Installation
 
