@@ -61,6 +61,7 @@ func decodeMultipart(c *fiber.Ctx) (err error) {
 	return c.JSON(data)
 
 }
+
 func encode(c *fiber.Ctx) (err error) {
 	bytes := c.Request().Body()
 	req := request{}

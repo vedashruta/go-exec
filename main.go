@@ -14,7 +14,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app := fiber.New()
+	app := fiber.New(
+		fiber.Config{
+			StrictRouting: true,
+			CaseSensitive: true,
+			BodyLimit:     env.BodyLimit,
+			Concurrency:   env.Concurrency,
+		},
+	)
 	app.Use(pprof.New())
 	app.Get("/", func(c *fiber.Ctx) (err error) {
 		c.JSON(fiber.Map{
